@@ -1,0 +1,87 @@
+{
+  "name": "example_plugin",
+  "version": "1.0.0",
+  "description": "Example plugin demonstrating the RedditDL plugin system",
+  "author": "Your Name",
+  "email": "your.email@example.com",
+  "license": "MIT",
+  "homepage": "https://github.com/yourusername/example-plugin",
+  
+  "redditdl_version": ">=0.2.0",
+  "python_version": ">=3.8",
+  
+  "plugin_type": "multi",
+  "categories": ["content_handler", "filter", "exporter"],
+  
+  "dependencies": [
+    "requests>=2.25.0",
+    "pillow>=8.0.0"
+  ],
+  
+  "optional_dependencies": {
+    "advanced_features": ["opencv-python>=4.5.0"],
+    "performance": ["numba>=0.50.0"]
+  },
+  
+  "entry_points": {
+    "content_handlers": [
+      {
+        "class": "ExampleContentHandler",
+        "content_types": ["example_type", "custom_format"],
+        "priority": 100
+      }
+    ],
+    "filters": [
+      {
+        "class": "ExampleFilter", 
+        "filter_name": "example_filter",
+        "priority": 100
+      }
+    ],
+    "exporters": [
+      {
+        "class": "ExampleExporter",
+        "format_name": "example",
+        "file_extension": ".example"
+      }
+    ]
+  },
+  
+  "configuration": {
+    "schema_file": "config_schema.json",
+    "default_config": {
+      "enabled": true,
+      "log_level": "INFO",
+      "cache_enabled": true,
+      "max_cache_size": "100MB"
+    }
+  },
+  
+  "resources": {
+    "documentation": "docs/",
+    "examples": "examples/",
+    "tests": "tests/",
+    "assets": "assets/"
+  },
+  
+  "permissions": {
+    "network_access": false,
+    "file_system_access": true,
+    "subprocess_access": false,
+    "restricted_imports": ["os", "sys", "subprocess"]
+  },
+  
+  "hooks": {
+    "pre_install": "scripts/pre_install.py",
+    "post_install": "scripts/post_install.py",
+    "pre_uninstall": "scripts/pre_uninstall.py"
+  },
+  
+  "metadata": {
+    "tags": ["example", "demo", "template"],
+    "keywords": ["redditdl", "plugin", "example"],
+    "changelog": "CHANGELOG.md",
+    "documentation_url": "https://example-plugin.readthedocs.io/",
+    "bug_tracker": "https://github.com/yourusername/example-plugin/issues"
+  }
+}

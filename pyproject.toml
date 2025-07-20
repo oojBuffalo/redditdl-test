@@ -1,0 +1,430 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "redditdl"
+dynamic = ["version"]
+description = "Advanced Reddit content archival and analysis tool with plugin extensibility"
+readme = "README.md"
+requires-python = ">=3.12"
+license = {text = "MIT"}
+authors = [
+    {name = "RedditDL Team", email = "contact@redditdl.example.com"}
+]
+maintainers = [
+    {name = "RedditDL Team", email = "contact@redditdl.example.com"}
+]
+keywords = [
+    "reddit", "archival", "data-collection", "content-analysis", 
+    "social-media", "research", "pipeline", "automation"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education", 
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Archiving",
+    "Topic :: Utilities"
+]
+dependencies = [
+    "aiofiles>=23.0.0",
+    "asyncio-pool>=0.6.0",
+    "cachetools>=5.3.0",
+    "ffmpeg-python>=0.2.0",
+    "jinja2>=3.0.0",
+    "mcp-server-docker>=0.2.1",
+    "memory-mcp-server>=0.1.3",
+    "piexif>=1.1.3",
+    "pillow>=11.2.1",
+    "pluggy>=1.5.0",
+    "praw>=7.8.1",
+    "prompt-toolkit>=3.0.0",
+    "pydantic>=2.0.0",
+    "pygments>=2.0.0",
+    "pytest-timeout>=2.4.0",
+    "python-dateutil>=2.9.0.post0",
+    "pyyaml>=6.0.0",
+    "requests>=2.32.3",
+    "rich>=13.0.0",
+    "tqdm>=4.65.0",
+    "typer>=0.12.0",
+    "yars",
+]
+
+[project.urls]
+Homepage = "https://github.com/redditdl/redditdl"
+Repository = "https://github.com/redditdl/redditdl.git"
+Issues = "https://github.com/redditdl/redditdl/issues"
+Documentation = "https://redditdl.readthedocs.io/"
+Changelog = "https://github.com/redditdl/redditdl/blob/main/CHANGELOG.md"
+Funding = "https://github.com/sponsors/redditdl"
+
+[project.scripts]
+redditdl = "redditdl.main:main"
+
+[project.entry-points."redditdl.plugins"]
+# Built-in plugins
+json_exporter = "redditdl.exporters.json:JsonExporter"
+csv_exporter = "redditdl.exporters.csv:CsvExporter"
+sqlite_exporter = "redditdl.exporters.sqlite:SqliteExporter"
+markdown_exporter = "redditdl.exporters.markdown:MarkdownExporter"
+
+score_filter = "redditdl.filters.score:ScoreFilter"
+date_filter = "redditdl.filters.date:DateFilter"
+keyword_filter = "redditdl.filters.keyword:KeywordFilter"
+domain_filter = "redditdl.filters.domain:DomainFilter"
+media_type_filter = "redditdl.filters.media_type:MediaTypeFilter"
+nsfw_filter = "redditdl.filters.nsfw:NSFWFilter"
+
+media_handler = "redditdl.content_handlers.media:MediaContentHandler"
+gallery_handler = "redditdl.content_handlers.gallery:GalleryContentHandler"
+text_handler = "redditdl.content_handlers.text:TextContentHandler"
+poll_handler = "redditdl.content_handlers.poll:PollContentHandler"
+crosspost_handler = "redditdl.content_handlers.crosspost:CrosspostContentHandler"
+external_handler = "redditdl.content_handlers.external:ExternalContentHandler"
+
+[project.optional-dependencies]
+# Development dependencies
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0", 
+    "pytest-asyncio>=0.21.0",
+    "pytest-benchmark>=4.0.0",
+    "pytest-mock>=3.10.0",
+    "pytest-xdist>=3.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+    "ruff>=0.1.0"
+]
+
+# Performance monitoring
+monitoring = [
+    "memory-profiler>=0.60.0",
+    "psutil>=5.9.0",
+    "py-spy>=0.3.0"
+]
+
+# Advanced content analysis
+analysis = [
+    "opencv-python>=4.8.0",
+    "scikit-learn>=1.3.0",
+    "nltk>=3.8.0",
+    "textblob>=0.17.0",
+    "spacy>=3.6.0"
+]
+
+# Database integrations
+databases = [
+    "psycopg2-binary>=2.9.0",
+    "pymongo>=4.0.0",
+    "sqlalchemy>=2.0.0"
+]
+
+# Web UI (future feature)
+web = [
+    "fastapi>=0.100.0",
+    "uvicorn[standard]>=0.23.0",
+    "jinja2>=3.1.0"
+]
+
+# All optional dependencies
+all = [
+    "redditdl[dev,monitoring,analysis,databases,web]"
+]
+
+[tool.uv.sources]
+yars = { path = "yars-0.1.0-py3-none-any.whl" }
+
+# Hatchling build configuration
+[tool.hatchling.build]
+include = [
+    "src/redditdl/",
+    "config-templates/",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "MANIFEST.in",
+    "yars-0.1.0-py3-none-any.whl"
+]
+exclude = [
+    "tests/",
+    "docs/",
+    "*.pyc",
+    "__pycache__/",
+    "*.log",
+    "downloads/",
+    "exports/",
+    "logs/",
+    ".git/",
+    ".venv/",
+    "node_modules/",
+    "demo_output/",
+    "cli_output/",
+    "metadocs/",
+    "YARS.log"
+]
+
+[tool.hatchling.build.targets.wheel]
+packages = ["src/redditdl"]
+
+[tool.hatchling.build.targets.sdist]
+include = [
+    "/src",
+    "/tests",
+    "/docs",
+    "/config-templates",
+    "/README.md",
+    "/LICENSE",
+    "/CHANGELOG.md",
+    "/pyproject.toml",
+    "/yars-0.1.0-py3-none-any.whl",
+    "/MANIFEST.in"
+]
+
+# Package metadata for distribution
+[tool.hatchling.metadata]
+allow-direct-references = true
+
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-benchmark>=4.0.0",
+    "pytest-mock>=3.10.0",
+    "pytest-xdist>=3.0.0",
+    "memory-profiler>=0.60.0",
+    "psutil>=5.9.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+# Test markers for organization
+markers = [
+    "unit: Unit tests for individual components",
+    "integration: Integration tests for component interaction", 
+    "performance: Performance and benchmark tests",
+    "memory: Memory usage validation tests",
+    "regression: Regression detection tests",
+    "scalability: Large-scale stress tests",
+    "slow: Tests that take longer to run",
+    "cli: CLI interface tests",
+    "asyncio: Tests for asyncio-based code"
+]
+# Test discovery
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+# Async support
+# Minimal output options
+addopts = [
+    "--strict-markers",
+    "--strict-config", 
+    "--disable-warnings"
+]
+
+[tool.coverage.run]
+source = ["src/redditdl"]
+omit = [
+    "tests/*",
+    "*/tests/*", 
+    "venv/*",
+    "*/venv/*",
+    ".venv/*",
+    "*/.venv/*",
+    "setup.py",
+    "*/site-packages/*",
+    "yars-*"
+]
+branch = true
+
+[tool.coverage.report]
+# Coverage thresholds for Task 19 (>90% requirement)
+fail_under = 90
+show_missing = true
+skip_covered = false
+precision = 2
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError", 
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod"
+]
+
+[tool.coverage.html]
+directory = "htmlcov"
+title = "RedditDL Test Coverage Report"
+
+[tool.coverage.xml]
+output = "coverage.xml"
+
+# Black code formatting
+[tool.black]
+line-length = 100
+target-version = ['py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | node_modules
+)/
+'''
+
+# isort import sorting
+[tool.isort]
+profile = "black"
+line_length = 100
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+known_first_party = ["redditdl", "redditdl.cli", "redditdl.core", "redditdl.content_handlers", "redditdl.exporters", "redditdl.filters", "redditdl.pipeline", "redditdl.processing", "redditdl.targets", "redditdl.plugins", "redditdl.tools"]
+
+# MyPy type checking
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+show_error_codes = true
+show_column_numbers = true
+
+[[tool.mypy.overrides]]
+module = [
+    "praw",
+    "praw.*",
+    "yars",
+    "yars.*",
+    "piexif",
+    "piexif.*",
+    "pluggy",
+    "pluggy.*"
+]
+ignore_missing_imports = true
+
+# Ruff linting
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # Pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "SIM", # flake8-simplify
+    "TCH", # flake8-type-checking
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]  # imported but unused
+"tests/**/*.py" = ["SIM117"]  # combine if branches
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+# Hatch version management
+[tool.hatch.version]
+path = "src/redditdl/__init__.py"
+
+# Development environment configuration
+[tool.hatch.envs.default]
+dependencies = [
+    "pytest",
+    "pytest-cov",
+    "pytest-asyncio",
+    "black",
+    "isort", 
+    "mypy",
+    "ruff"
+]
+
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+test-cov = "pytest --cov=src/redditdl {args:tests}"
+cov-report = ["test-cov", "coverage report"]
+cov-html = ["test-cov", "coverage html"]
+lint = ["ruff check src", "black --check src", "isort --check-only src"]
+format = ["black src", "isort src", "ruff check src --fix"]
+typecheck = "mypy src"
+check = ["lint", "typecheck", "test"]
+
+# Documentation environment
+[tool.hatch.envs.docs]
+dependencies = [
+    "mkdocs",
+    "mkdocs-material", 
+    "mkdocs-mermaid2-plugin",
+    "mkdocstrings[python]"
+]
+
+[tool.hatch.envs.docs.scripts]
+build = "mkdocs build"
+serve = "mkdocs serve"
+deploy = "mkdocs gh-deploy"
+
+# Performance testing environment  
+[tool.hatch.envs.perf]
+dependencies = [
+    "pytest-benchmark",
+    "memory-profiler",
+    "py-spy"
+]
+
+[tool.hatch.envs.perf.scripts]
+benchmark = "pytest tests/test_performance.py --benchmark-only"
+profile = "python -m memory_profiler main.py --dry-run scrape user test"
